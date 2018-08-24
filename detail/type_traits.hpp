@@ -1,5 +1,5 @@
-#ifndef EVE_TYPE_TRAITS_HPP
-#define EVE_TYPE_TRAITS_HPP
+#ifndef EVE_DETAIL_TYPE_TRAITS_HPP
+#define EVE_DETAIL_TYPE_TRAITS_HPP
 
 #include <cstddef>
 

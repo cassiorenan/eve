@@ -1,5 +1,5 @@
-#ifndef EVE_OPERATORS_HPP
-#define EVE_OPERATORS_HPP
+#ifndef EVE_DETAIL_OPERATORS_HPP
+#define EVE_DETAIL_OPERATORS_HPP
 
 #include <algorithm>
 #include <utility>
