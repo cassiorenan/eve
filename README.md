@@ -6,7 +6,7 @@ Eve is header-only. To use it, you just need to `#include "eve/eve.hpp"`.
 
 ## Introduction
 
-Nothing beats than an example:
+Nothing beats an example:
 
     #include <iostream>
     #include <typeinfo>
