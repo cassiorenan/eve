@@ -14,16 +14,20 @@ namespace eve::detail {
 using std::generate;
 using std::allocator;
 using std::common_type_t;
-using std::enable_if_t;
+using std::conditional_t;
+using std::enable_if_t, std::is_same_v;
 using std::forward;
 
 template<typename T, size_t n, typename Allocator=allocator<T>>
 class vector {
   static_assert(n>1);
-  using data_t = std::vector<T, Allocator>;
+  using vector_t = std::vector<T, Allocator>;
+  using array_t = std::array<T, n>;
+  using data_t = conditional_t<(sizeof(array_t)>sizeof(vector_t)), vector_t, array_t>;
   data_t m_data;
 public:
   using value_type = T;
+  using container_type = data_t;
   using allocator_type = Allocator;
   using size_type = typename data_t::size_type;
   using difference_type = typename data_t::difference_type;
@@ -48,9 +52,14 @@ public:
     :  m_data{forward<Ts>(args)...}
   {}
 
-  vector()
-    :  m_data(n)
-  {}
+  vector() {
+    // Because we use std::array for small-sized vectors, we can't just
+    // use the std::vector's constructor that accepts a size_t.
+    // We work around this by resizing the vector after construction.
+    if constexpr (is_same_v<data_t, vector_t>) {
+      m_data.resize(n);
+    }
+  }
 
   template<typename F>
   vector(const F& generator)
