@@ -19,11 +19,11 @@ auto& get(const T& p){return p[i];}
 
 namespace std {
 
-template<typename T, size_t n, typename Allocator>
-struct tuple_size<eve::detail::vector<T, n, Allocator>>{static const size_t value{n};};
+template<typename T, size_t n>
+struct tuple_size<eve::detail::vector<T, n>>{static const size_t value{n};};
 
-template<typename T, size_t i, size_t n, typename Allocator>
-struct tuple_element<i, eve::detail::vector<T, n, Allocator>>{using type = const T&;};
+template<typename T, size_t i, size_t n>
+struct tuple_element<i, eve::detail::vector<T, n>>{using type = const T&;};
 
 } // namespace std
 

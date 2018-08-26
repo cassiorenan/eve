@@ -6,8 +6,10 @@
 #include <algorithm>
 #include <memory>
 #include <type_traits>
-#include <vector>
 #include <utility>
+
+#include "internal/container.hpp"
+#include "internal/simd/intel.hpp"
 
 namespace eve::detail {
 
@@ -18,19 +20,16 @@ using std::conditional_t;
 using std::enable_if_t, std::is_same_v;
 using std::forward;
 
-template<typename T, size_t n, typename Allocator=allocator<T>>
+template<typename T, size_t n>
 class vector {
   static_assert(n>1);
-  using vector_t = std::vector<T, Allocator>;
-  using array_t = std::array<T, n>;
-  using data_t = conditional_t<(sizeof(array_t)>sizeof(vector_t)), vector_t, array_t>;
+  using data_t = container<T, n, simd::alignment>;
   data_t m_data;
 public:
   using value_type = T;
   using container_type = data_t;
-  using allocator_type = Allocator;
-  using size_type = typename data_t::size_type;
-  using difference_type = typename data_t::difference_type;
+  using size_type = size_t;
+  using difference_type = intptr_t;
   using reference = T&;
   using const_reference = const T&;
   using pointer = T*;
@@ -52,14 +51,7 @@ public:
     :  m_data{forward<Ts>(args)...}
   {}
 
-  vector() {
-    // Because we use std::array for small-sized vectors, we can't just
-    // use the std::vector's constructor that accepts a size_t.
-    // We work around this by resizing the vector after construction.
-    if constexpr (is_same_v<data_t, vector_t>) {
-      m_data.resize(n);
-    }
-  }
+  vector() {}
 
   template<typename F>
   vector(const F& generator)
@@ -73,6 +65,9 @@ public:
   const T& operator[](size_t i) const noexcept {
     return m_data[i];
   }
+
+  const T* data() const {return m_data.data();}
+  T* data() {return m_data.data();}
 };
 
 template <typename... Ts> vector(Ts... args) -> vector<common_type_t<Ts...>, sizeof...(Ts)>;

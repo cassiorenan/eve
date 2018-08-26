@@ -16,12 +16,12 @@ using std::true_type, std::false_type;
 namespace _t {
 
 template<typename T> struct is_vector : false_type{};
-template<typename T, size_t n, typename Allocator>
-struct is_vector<vector<T, n, Allocator>> : true_type{};
+template<typename T, size_t n>
+struct is_vector<vector<T, n>> : true_type{};
 
 template<typename T> struct dimension {static const auto value = 0;};
-template<typename T, size_t n, typename Allocator>
-struct dimension<vector<T, n, Allocator>> {static const auto value = n;};
+template<typename T, size_t n>
+struct dimension<vector<T, n>> {static const auto value = n;};
 
 } // namespace _t
 

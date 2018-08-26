@@ -7,6 +7,7 @@
 #include "type_traits.hpp"
 
 #include "internal/op.hpp"
+#include "internal/simd/intel.hpp"
 
 namespace eve::detail {
 
@@ -16,18 +17,26 @@ using std::move;
 
 EVE_BINARY_OP
 T1& operator+=(T1& lhs, const T2& rhs) noexcept {
-  auto b = rhs.begin();
-  for(auto a = lhs.begin(); a != lhs.end(); ++a, ++b) {
-    *a += *b;
+  if constexpr (simd::has_optimized_add<value_type<T1>> && is_same_value_type<T1, T2>) {
+    simd::add<dimension<T1>>(lhs.data(), rhs.data());
+  } else {
+    auto b = rhs.begin();
+    for(auto a = lhs.begin(); a != lhs.end(); ++a, ++b) {
+      *a += *b;
+    }
   }
   return lhs;
 }
 
 EVE_BINARY_OP
 auto& operator-=(T1& lhs, const T2& rhs) noexcept {
-  auto b = rhs.begin();
-  for(auto a = lhs.begin(); a != lhs.end(); ++a, ++b) {
-    *a -= *b;
+  if constexpr (simd::has_optimized_add<value_type<T1>> && is_same_value_type<T1, T2>) {
+    simd::add<dimension<T1>>(lhs.data(), rhs.data());
+  } else {
+    auto b = rhs.begin();
+    for(auto a = lhs.begin(); a != lhs.end(); ++a, ++b) {
+      *a -= *b;
+    }
   }
   return lhs;
 }
