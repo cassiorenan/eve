@@ -1,5 +1,5 @@
 # Eve
-**Eve** is the <em>E</em>uclidean <em>Ve</em>ctor Library. Eve requires C++17.
+**Eve** is the <em><b>E</b></em>uclidean <em><b>Ve</b></em>ctor Library. Eve requires C++17.
 
 ## Usage
 Eve is header-only. To use it, you just need to `#include "eve/eve.hpp"`.
