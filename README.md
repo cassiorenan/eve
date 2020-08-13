@@ -1,5 +1,5 @@
 # Eve
-**Eve** is the <b>E</b>uclidean <b>Ve</b>ctor Library. Eve requires C++17.
+**Eve** is the <em>E</em>uclidean <em>Ve</em>ctor Library. Eve requires C++17.
 
 ## Usage
 Eve is header-only. To use it, you just need to `#include "eve/eve.hpp"`.
@@ -33,7 +33,8 @@ Nothing beats an example:
         << "Their differences are " << diffab << " and " << diffba << ".\n"
         << "They are " << distance << " units apart.\n"
         << "Their dot product is " << dot << ".\n"
-        << "Their parallel unit vectors are " << eve::normalize(a) << " and " << eve::normalize(b) << ".\n\n";
+        << "Their parallel unit vectors are " << eve::normalize(a) << " and " << eve::normalize(b) << ".\n"
+        << "Note how the normalization truncated b to a zero vector, because of its type.\n\n";
 
       eve::vector c{4.0,5.0};
       auto [x, y] = c;
@@ -53,6 +54,7 @@ Nothing beats an example:
     They are 2.82843 units apart.
     Their dot product is 10.
     Their parallel unit vectors are (0.267261, 0.534522, 0.801784) and (0, 0, 0).
+    Note how the normalization truncated b to a zero vector, because of its type.
 
     The third vector is (4, 5).
     Its components are 4 and 5.
